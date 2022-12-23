@@ -40,16 +40,20 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class Chat extends Activity {
 
     DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReferenceFromUrl("https://dating-app-eddc9-default-rtdb.firebaseio.com/");
-    private String getChatKey;
-    private String getUID;
     private FirebaseAuth mAuth;
+
     private RecyclerView chattingRecyclerView;
     private final List<ChatList> chatLists=new ArrayList<ChatList>();
     private ChatAdapter chatAdapter;
+
+    private String getChatKey;
+    private String getUID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
         final ImageView btn_arrowBack=findViewById(R.id.btn_arrowBack);
         final TextView txt_username=findViewById(R.id.txt_username);
         final EditText edt_messagesEditText=findViewById(R.id.edt_messagesEditText);
@@ -72,7 +76,6 @@ public class Chat extends Activity {
         chattingRecyclerView=findViewById(R.id.list_messages);
         chattingRecyclerView.setHasFixedSize(true);
         chattingRecyclerView.setLayoutManager(new LinearLayoutManager(Chat.this));
-
         chatAdapter=new ChatAdapter(chatLists,Chat.this);
         chattingRecyclerView.setAdapter(chatAdapter);
 
@@ -103,6 +106,7 @@ public class Chat extends Activity {
                         if((getFirstUID.equals(getUID) && getSecondUID.equals(mAuth.getUid())) || (getSecondUID.equals(getUID) && getFirstUID.equals(mAuth.getUid()))) {
                             for (DataSnapshot messagesSnapshot : snapshot.child("Chat").child(getChatKey).child("Messages").getChildren()) {
                                 if (messagesSnapshot.hasChild("msg") && messagesSnapshot.hasChild("FromUID") && messagesSnapshot.hasChild("ToUID")) {
+
                                     final String messagesTimestamp = messagesSnapshot.getKey();
                                     final String messagesFromUID = messagesSnapshot.child("FromUID").getValue(String.class);
                                     final String messagesToUID = messagesSnapshot.child("ToUID").getValue(String.class);
@@ -115,7 +119,7 @@ public class Chat extends Activity {
                                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy",Locale.getDefault());
                                     SimpleDateFormat simpleTimeFormat = new SimpleDateFormat("hh:mm aa",Locale.getDefault());
 
-
+                                    //Add new msg to RecyclerView
                                     ChatList chatList = new ChatList(messagesFromUID, messagesToUID, messagesText,simpleDateFormat.format(date), simpleTimeFormat.format(date));
                                     chatLists.add(chatList);
                                     chatAdapter.updateChatList(chatLists);

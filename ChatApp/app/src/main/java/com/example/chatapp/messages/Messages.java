@@ -24,13 +24,14 @@ import java.util.List;
 import java.util.Objects;
 
 public class Messages extends Activity {
+    DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReferenceFromUrl("https://dating-app-eddc9-default-rtdb.firebaseio.com/");
+    private FirebaseAuth mAuth;
 
     private RecyclerView messagesRecyclerView;
     private final List<MessagesList> messagesLists=new ArrayList<MessagesList>();
     private MessagesAdapter messagesAdapter;
-    DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReferenceFromUrl("https://dating-app-eddc9-default-rtdb.firebaseio.com/");
+
     private ImageView userPicture;
-    private FirebaseAuth mAuth;
     private String  getChatKey="";
     private String lastMessage="";
     int unSeenMassage=0;
@@ -40,9 +41,7 @@ public class Messages extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messages);
 
-
-        //objects
-        messagesRecyclerView=findViewById(R.id.list_messagesRecyclerView);
+        //Objects
         userPicture=findViewById(R.id.userProfilePic);
         //Firebase authentication
         mAuth=FirebaseAuth.getInstance();
@@ -51,6 +50,7 @@ public class Messages extends Activity {
             currentUser.reload();
         }
         //set Recycler View
+        messagesRecyclerView=findViewById(R.id.list_messagesRecyclerView);
         messagesRecyclerView.setHasFixedSize(true);
         messagesRecyclerView.setLayoutManager( new LinearLayoutManager(this));
         messagesAdapter=new MessagesAdapter(messagesLists,Messages.this);
@@ -70,7 +70,7 @@ public class Messages extends Activity {
 
             }
         });
-
+        //Add contact list
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -103,7 +103,7 @@ public class Messages extends Activity {
                                                 getChatKey=chatKeyDataSnapshot.getKey();
                                                 for(DataSnapshot chatDataSnapshot:chatKeyDataSnapshot.child("Messages").getChildren()){
                                                     int countMsg = (int)snapshot.child("Chat").child(getChatKey).child("Messages").getChildrenCount();
-                                                    int lastMsgSeen =( int)snapshot.child("Users").child(mAuth.getUid()).child("ContactList").child(mAuthUid).getValue(Integer.class);
+                                                    int lastMsgSeen = snapshot.child("Users").child(mAuth.getUid()).child("ContactList").child(mAuthUid).getValue(Integer.class);
                                                     unSeenMassage=countMsg-lastMsgSeen;
                                                     lastMessage=chatDataSnapshot.child("msg").getValue(String.class);
                                                 }

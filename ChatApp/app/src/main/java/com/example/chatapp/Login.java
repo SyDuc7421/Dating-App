@@ -17,10 +17,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class Login extends Activity {
-    private EditText edt_email, edt_password;
 
     private FirebaseAuth mAuth;
 
+    private EditText edt_email, edt_password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +32,6 @@ public class Login extends Activity {
         AppCompatButton btn_register=findViewById(R.id.btn_register);
         //firebase authentication
         mAuth=FirebaseAuth.getInstance();
-
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
             currentUser.reload();

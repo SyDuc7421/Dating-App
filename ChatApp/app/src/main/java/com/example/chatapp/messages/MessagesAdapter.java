@@ -1,5 +1,6 @@
 package com.example.chatapp.messages;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 
@@ -29,10 +30,11 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyView
         this.context = context;
     }
 
+    @SuppressLint("InflateParams")
     @NonNull
     @Override
     public MessagesAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.messages_adapter_layout,parent,false));
+        return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.messages_adapter_layout,null));
     }
 
     @Override
@@ -44,7 +46,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyView
         }
         holder.txt_username.setText(list.getUsername());
         holder.txt_lastMessage.setText(list.getLastMessage());
-        holder.txt_unSeenMassage.setText(list.getIsUnSeenMessage());
+        holder.txt_unSeenMassage.setText(String.valueOf(list.getIsUnSeenMessage()));
         if(list.getIsUnSeenMessage()==0){
             holder.txt_unSeenMassage.setVisibility(View.GONE);
             holder.txt_lastMessage.setTextColor(context.getResources().getColor(R.color.theme_color_light));
