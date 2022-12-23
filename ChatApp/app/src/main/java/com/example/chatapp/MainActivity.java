@@ -23,18 +23,19 @@ import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends Activity {
+    DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReferenceFromUrl("https://dating-app-eddc9-default-rtdb.firebaseio.com/");
+    private FirebaseAuth mAuth;
 
     private CircleImageView userPicture;
-    private FirebaseAuth mAuth;
-    DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReferenceFromUrl("https://dating-app-eddc9-default-rtdb.firebaseio.com/");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Objects
         userPicture=findViewById(R.id.userProfilePic);
         AppCompatButton btn_messages = findViewById(R.id.btn_messages);
-
         //Firebase authentication
         mAuth= FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();

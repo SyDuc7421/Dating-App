@@ -36,7 +36,7 @@
 
     <EditText
         android:id="@+id/edt_password"
-        android:drawableStart="@drawable/ic_pass"
+        android:drawableStart="@drawable/ic_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"

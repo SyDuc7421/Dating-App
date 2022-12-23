@@ -25,14 +25,15 @@ import com.google.firebase.database.ValueEventListener;
 
 public class SetUserProfile extends Activity {
 
+    DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReferenceFromUrl("https://dating-app-eddc9-default-rtdb.firebaseio.com/");
+    private FirebaseAuth mAuth;
+
     private EditText edt_fullName, edt_birthdDate;
     private RadioGroup rg_gender;
     private RadioButton rb_male, rb_female, rb_others;
     private TextView txt_birthDate;
     private AppCompatButton btn_datePicker, btn_submit;
 
-    DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReferenceFromUrl("https://dating-app-eddc9-default-rtdb.firebaseio.com/");
-    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
